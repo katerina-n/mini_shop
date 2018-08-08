@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+
+<style>
+    .formWrapper > form {
+        text-align: center;
+    }
+    .pagination{
+        justify-content: center;
+    }
+</style>
+    <div class="container" style="margin-top:120px; background-color: #97bec2" >
+    <div class="row">
+        <div class="col-12">
+            <div class="formWrapper" style="display: flex; align-items: center; justify-content: center">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <hr>
+        <div class="col-12">
+            <ul class="list-group list-group-flush">
+                {% for key, user in message %}
+                    <li class="list-group-item"> {{ user.getObj() }} {{ user.getSubj() }} {{ user.getDate().format('Y-m-d') }}
+                        <button type="button" class="btn btn-modal btn-primary" data-toggle="modal" data-info="{{ user.getChat() }}" data-target="#modalWindow" style="background-color:grey; border:black">
+                                Message
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-12 text-center">
+            {%  if message %}
+                {{ knp_pagination_render(message, null, {}) }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+    <div class="modal fade" id="modalWindow" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts%}
+    <script type="text/javascript" >
+     $(document).ready(function(){
+          $('.btn-modal').click(function () {
+              $('#modal-body').html($(this).data('info'));
+          })
+     });
+ </script>
+{% endblock javascripts %}

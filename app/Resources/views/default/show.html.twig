@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    <div class="container" style="margin-top:120px; background-color: #97bec2" >
+        <div class="col-md-12 col-sm-12 col-xs-12 my-col text-center" >
+            {{ message.getTotalItemCount }}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+            <hr>
+            <ul class="list-group list-group-flush">
+                {% for key, user in message %}
+                    <li class="list-group-item"> {{ user.getObj() }} {{ user.getSubj() }} {{ user.getDate().format('Y-m-d') }}
+                        {% if(key== id ) %}
+                            {{ user.getChat() }}
+                        {% else %}
+                        <a href="{{ path('show_chat',  {'id': key|e }) }}">Show</a>
+                        {% endif %}
+                            </li>
+                {% endfor %}
+            </ul>
+            {{ knp_pagination_render(message) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block css%}
+{% endblock css %}

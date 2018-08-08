@@ -1,0 +1,22 @@
+# Parameters
+/app/config/parameters.yml
+
+# Vendor
+/vendor/
+
+# Cache, session files and logs
+/log/*
+/var/*
+!/var/cache
+!/var/logs
+!/var/sessions
+/var/cache/*
+/var/logs/*
+/var/sessions/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+!/var/SymfonyRequirements.php
+yarn-error.log
+
+/node_modules
