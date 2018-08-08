@@ -22,9 +22,10 @@ class UserOrder
     private $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="user", type="integer")
+     * @ORM\ManyToOne(targetEntity="AccountBundle\Entity\User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
      */
     private $user;
 

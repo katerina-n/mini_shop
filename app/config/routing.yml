@@ -11,7 +11,7 @@ account:
 api:
     resource: "@ApiBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /api/rest
 
 app:
     resource: '@AppBundle/Controller/'
@@ -31,6 +31,11 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
 
-chat_swagger_ui:
+mini_shop_swagger_ui:
     resource: "@NelmioApiDocBundle/Resources/config/routing/swaggerui.xml"
     prefix:   /api/doc
+
+mini_shop.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
