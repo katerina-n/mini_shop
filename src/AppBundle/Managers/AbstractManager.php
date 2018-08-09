@@ -1,6 +1,6 @@
 <?php
 
-namespace Diva\CommonBundle\Managers;
+namespace AppBundle\Managers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -49,9 +49,9 @@ abstract class AbstractManager
     /**
      * Gets EntityClassName.
      *
-     * @return string
+     * @return string|null
      */
-    public function getEntityClassName(): string
+    public function getEntityClassName()
     {
         return $this->entityClassName;
     }
@@ -105,34 +105,6 @@ abstract class AbstractManager
     }
 
     /**
-     * Flush only one repository.
-     *
-     * @param object|array $entity
-     *
-     * @return AbstractManager
-     *
-     * @throws OptimisticLockException
-     */
-    public function flush($entity): self
-    {
-        $this->entityManager->flush($entity);
-
-        return $this;
-    }
-
-    /**
-     * Flush all.
-     *
-     * @return AbstractManager
-     */
-    public function flushAll(): self
-    {
-        $this->entityManager->flush();
-
-        return $this;
-    }
-
-    /**
      * @param $array
      *
      * @return null|object
@@ -140,16 +112,6 @@ abstract class AbstractManager
     public function findOneBy($array)
     {
         return $this->getRepository()->findOneBy($array);
-    }
-
-    /**
-     * @param $entity
-     */
-    public function remove($entity)
-    {
-        $this->entityManager->transactional(function () use ($entity) {
-            $this->entityManager->remove($entity);
-        });
     }
 
     /**

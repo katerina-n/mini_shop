@@ -1,30 +1,29 @@
 services:
-#    api.example:
-#        class: ApiBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
 
-#    app.manager.chat:
-#        class: AppBundle\Managers\ChatManager
-#        lazy: true
-#        arguments: ['@doctrine.orm.entity_manager']
-#
-#    app.service.chat_service:
-#        class: AppBundle\Service\ChatService
-#        arguments:
-#          - '@app.manager.chat'
-#          - '@knp_paginator'
-#
-#    app.managers.chat_messages_managers:
-#        class: AppBundle\Managers\MessagesManager
-#        arguments: ['@doctrine.orm.entity_manager']
-#
-#    app.service.chat_messages_service:
-#        class: AppBundle\Service\MessageService
-#        arguments: ['@app.manager.chat']
-#
-#    app.managers.account_managers:
-#        class: AppBundle\Managers\AccountManager
-#        arguments: ['@doctrine.orm.entity_manager']
+    app.managers.abstract_manager:
+        class: AppBundle\Managers\AbstractManager
+        abstract: true
+        lazy: true
+        arguments: ['@doctrine.orm.entity_manager']
 
-#       calls:
-#          - [setRepository, 'api.repository.chat_repository']
+    app.managers.order_managers:
+        class: AppBundle\Managers\OrderManager
+        parent: app.managers.abstract_manager
+        lazy: true
+        calls:
+            - [ setEntityClassName, ['AppBundle\Entity\Order']]
+
+    app.managers.product_managers:
+        class: AppBundle\Managers\ProductManager
+        parent: app.managers.abstract_manager
+        lazy: true
+        calls:
+            - [ setEntityClassName, ['AppBundle\Entity\Product']]
+
+
+    app.managers.user_order:
+        class: AppBundle\Managers\UserOrderManager
+        parent: app.managers.abstract_manager
+        lazy: true
+        calls:
+            - [ setEntityClassName, ['AppBundle\Entity\UserOrder']]

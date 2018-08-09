@@ -1,27 +1,27 @@
-services:
-    app.managers.abstract_manager:
-                class: AppBundle\Managers\AbstractManager
-                abstract: true
-                lazy: true
-                arguments: ['@doctrine.orm.entity_manager']
-
-    app.managers.order:
-        class: AppBundle\Managers\OrderManager
-        parent: app.managers.abstract_manager
-        lazy: true
-        calls:
-            - [ setEntityClassName, ['AppBundle\Entity\Order']]
-
-    app.managers.product:
-            class: AppBundle\Managers\ProductManager
-            parent: app.managers.abstract_manager
-            lazy: true
-            calls:
-                - [ setEntityClassName, ['AppBundle\Entity\Product']]
-
-    app.managers.user_order:
-            class: AppBundle\Managers\UserOrderManager
-            parent: app.managers.abstract_manager
-            lazy: true
-            calls:
-                - [ setEntityClassName, ['AppBundle\Entity\UserOrder']]
+#services:
+#    app.managers.abstract_manager:
+#        class: AppBundle\Managers\AbstractManager
+#        abstract: true
+#        lazy: true
+#        arguments: ['@doctrine.orm.entity_manager']
+#
+#    app.managers.order:
+#        class: AppBundle\Managers\OrderManager
+#        parent: app.managers.abstract_manager
+#        lazy: true
+#        calls:
+#            - [ setEntityClassName, ['AppBundle\Entity\Order']]
+#
+#    app.managers.product:
+#            class: AppBundle\Managers\ProductManager
+#            parent: app.managers.abstract_manager
+#            lazy: true
+#            calls:
+#                - [ setEntityClassName, ['AppBundle\Entity\Product']]
+#
+#    app.managers.user_order:
+#            class: AppBundle\Managers\UserOrderManager
+#            parent: app.managers.abstract_manager
+#            lazy: true
+#            calls:
+#                - [ setEntityClassName, ['AppBundle\Entity\UserOrder']]

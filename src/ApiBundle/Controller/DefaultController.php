@@ -2,9 +2,16 @@
 namespace ApiBundle\Controller;
 
 
+use ApiBundle\Form\Type\OrderType;
+use AppBundle\Entity\Order;
+use AppBundle\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcher;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +27,6 @@ class DefaultController extends FOSRestController
 {
     /**
      * @Rest\Get("/")
-     *
      *
      * @SWG\Get(
      *     summary="Get all products",
@@ -38,8 +44,8 @@ class DefaultController extends FOSRestController
      * @throws \Exception
      */
     public function getAllProductsAction()
-    {dump($this->get('app.managers.product')->findAll()); exit;
-        return $this->get('app.managers.product')->findAll();
+    {
+        return $this->get('app.managers.product_managers')->findAll();
     }
     /**
      * @Rest\Get("/{id}")
@@ -69,60 +75,50 @@ class DefaultController extends FOSRestController
     /**
      * @Rest\Post("/")
      *
+     * @param Request $request
+     *
+     *
      * @SWG\Post(
-     *     summary="Create profile info",
+     *     summary="Create order",
      *     tags={"Order_Info"},
-     *     @SWG\Parameter(
-     *         name="data",
-     *         in="body",
-     *         type="json",
-     *         @SWG\Schema(
-     *              type="object",
-     *              @SWG\Property(property="name", type="string"),
-     *              @SWG\Property(property="nationality", type="integer"),
-     *              @SWG\Property(property="languages",
-     *                            type="array",
-     *                            @SWG\Items(type="integer")
-     *                              ),
-     *              @SWG\Property(property="age", type="integer"),
-     *              @SWG\Property(property="height", type="integer"),
-     *              @SWG\Property(property="weight", type="integer"),
-     *              @SWG\Property(property="breast", type="integer"),
-     *              @SWG\Property(property="bustNatural", type="integer"),
-     *              @SWG\Property(property="dress", type="integer"),
-     *              @SWG\Property(property="gender", type="string", example="female"),
-     *              @SWG\Property(property="orientation", type="string", example="hetero"),
-     *              @SWG\Property(property="smoker", type="string", example="no"),
-     *              @SWG\Property(property="tattoo", type="integer", example="no"),
-     *              @SWG\Property(property="willingToSee",
-     *                            type="array",
-     *                            @SWG\Items(type="integer")
-     *                              ),
-     *             @SWG\Property(property="labels",
-     *                           type="array",
-     *                           @SWG\Items(type="integer")
-     *                             )
-     *                          )
-     *                        ),
+     *     consumes={"application/x-www-form-urlencoded"},
+     *     @SWG\Parameter(name="product", in="formData", description="product", type="integer"),
+     *     @SWG\Parameter(name="count", in="formData", description="count", type="integer"),
      *     @SWG\Response(
      *          response=201,
-     *          description="Profile info created",
+     *          description="Order created",
      *     ),
      *     @SWG\Response(response="404", description="not found"),
      *     @SWG\Response(response="400", description="Duplicate entry for key, please choose another name"),
      *
      * )
      *
-     * @return Response
+     * @return
      *
-     * @Rest\View(statusCode=201, serializerGroups={"ApiProfile"})
+     * @Rest\View(statusCode=201)
      *
      * @throws \Exception
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        return $this->get('diva_rest.form_handler.profile_info_form_handler')
-            ->setMethod('POST')
-            ->handle();
+        $event_type = new Order();
+        $form = $this->createForm(OrderType::class, $event_type);
+        $form->submit($request->request->all());
+        $em = $this->get('app.managers.order_managers')->getEntityManager();
+
+        if ($form->isValid()) {
+            $product = $this->get('app.managers.product_managers')->find($request->request->get('product'));
+            $event_type->setPrice($product);
+            $event_type->setOrderUser($this->getUser());
+            //dump($event_type); exit;
+            $em->persist($event_type);
+            $em->flush();
+          $this->get('app.managers.order_managers')->setOrder($request, $event_type);
+            return View::create($event_type, Response::HTTP_CREATED , []);
+        }
+        return View::create($form, Response::HTTP_BAD_REQUEST , []);
+       // return $this->get('api.form.order_handler')->getNewTypeInstance();
+//            ->setMethod('POST')
+//            ->handle();
     }
 }

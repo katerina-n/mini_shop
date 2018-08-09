@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Managers\AbstractManager;
 use Doctrine\ORM\EntityRepository;
 
 /**

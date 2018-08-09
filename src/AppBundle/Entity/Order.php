@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AccountBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -21,7 +22,7 @@ class Order
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      */
-    private $id;
+    private $id = 1;
 
     /**
      * @var string
@@ -48,7 +49,7 @@ class Order
     /**
      * @var integer
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\UserOrder")
+     * @ORM\OneToOne(targetEntity="AccountBundle\Entity\User")
      * @ORM\JoinColumn(name="orderUser", referencedColumnName="id")
      */
     private $orderUser;
@@ -70,14 +71,6 @@ class Order
     }
 
     /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string
      */
     public function getProduct(): string
@@ -85,13 +78,13 @@ class Order
         return $this->product;
     }
 
-//    /**
-//     * @param string $product
-//     */
-//    public function setProduct(string $product): void
-//    {
-//        $this->product = $product;
-//    }
+    /**
+     * @param Product $product
+     */
+    public function setProduct(Product $product): void
+    {
+        $this->product = $product;
+    }
 
     /**
      * @return int
@@ -102,17 +95,18 @@ class Order
     }
 
     /**
-     * @param int $price
+     * @param $product
      */
-    public function setPrice(int $price): void
+    public function setPrice($product): void
     {
+        $price = $product->getPrice();
         $this->price = $price;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getCount(): int
+    public function getCount(): ?int
     {
         return $this->count;
     }
@@ -136,24 +130,24 @@ class Order
     /**
      * @param int $orderUser
      */
-    public function setOrderUser(int $orderUser): void
+    public function setOrderUser(User $orderUser): void
     {
         $this->orderUser = $orderUser;
     }
 
-    /**
-     * Set product.
-     *@param ArrayCollection|Product[] $product
-     *
-     *@return $this
-     */
-    public function setProduct($product):self
-    {
-        foreach($product as $value){
-            $this->addProduct($value);
-        }
-        return $this;
-    }
+//    /**
+//     * Set product.
+//     *@param $product
+//     *
+//     *@return $this
+//     */
+//    public function setProduct($product):self
+//    {
+//        foreach($product as $value){
+//            $this->addProduct($value);
+//        }
+//        return $this;
+//    }
 
     /**
      * Add product.
@@ -171,19 +165,5 @@ class Order
         return $this;
     }
 
-    /**
-     * Remove product
-     *
-     * @param Product $product
-     *
-     * @return $this
-     */
-    public function removeChat(Product $product):self
-    {
-        if(!$this->product->contains($product)){
-            $this->product->removeElement($product);
-        }
-        return $this->product->removeElement($product);
-    }
 
 }

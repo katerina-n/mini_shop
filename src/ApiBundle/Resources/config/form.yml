@@ -2,4 +2,3 @@ services:
     api.form.order_handler:
         class: ApiBundle\Form\Handler\OrderFormHandler
         public: true
-
