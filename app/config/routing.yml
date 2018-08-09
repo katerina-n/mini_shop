@@ -1,16 +1,10 @@
-#rest:
-#    resource: "@RestBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
-
 account:
     resource: "@AccountBundle/Controller/"
     type:     annotation
     prefix:   /
 
 api:
-    resource: "@ApiBundle/Controller/"
-    type:     annotation
+    resource: "@ApiBundle/Resources/config/routing.yml"
     prefix:   /api/rest
 
 app:

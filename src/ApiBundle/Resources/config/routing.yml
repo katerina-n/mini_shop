@@ -1,0 +1,3 @@
+default_rest:
+    resource: "@ApiBundle/Controller/DefaultController.php"
+    type:     rest

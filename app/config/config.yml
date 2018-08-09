@@ -118,5 +118,8 @@ nelmio_api_doc:
     areas:
         path_patterns: # an array of regexps
             - ^/api(?!/doc$)
-        host_patterns:
-            - ^api\.
+    documentation:
+        info:
+            title: Api explorer
+            description: Api list
+            version: 1.0.0
