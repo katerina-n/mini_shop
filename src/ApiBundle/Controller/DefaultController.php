@@ -202,4 +202,27 @@ class DefaultController extends FOSRestController
     {
         return $this->get('app.managers.user_order')->find($id);
     }
+
+    /**
+     * @Rest\Get("/get/user/")
+     *
+     * @SWG\Get(
+     *     summary="Get users",
+     *     tags={"Order_Info"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Return all products"),
+     *     @SWG\Response(response="404", description="not found"),
+     * )
+     *
+     * @Rest\View(statusCode=200)
+     *
+     * @return
+     *
+     * @throws \Exception
+     */
+    public function getAllUsersAction()
+    {
+        return $this->get('app.managers.product_managers')->findAll();
+    }
 }

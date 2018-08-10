@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace AccountBundle\Managers;
 
 use AppBundle\Entity\Account;
+use AppBundle\Managers\AbstractManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 

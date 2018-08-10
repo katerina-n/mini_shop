@@ -12,3 +12,10 @@ services:
             tags:
                 - { name: sonata.admin, manager_type: orm, label: Product }
             public: true
+
+    app.managers.product_managers:
+            class: AccountBundle\Managers\UserManager
+            parent: app.managers.abstract_manager
+            lazy: true
+            calls:
+                - [ setEntityClassName, ['AccountBundle\Entity\User']]
