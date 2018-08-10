@@ -37,27 +37,23 @@ class Product
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
+    /**
+     * @OneToMany(targetEntity="AppBundle\Entity\UserOrder", mappedBy="product")
+     */
+    private $orderUser;
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @return string|null
      */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -73,7 +69,7 @@ class Product
     /**
      * @return int
      */
-    public function getPrice(): int
+    public function getPrice()
     {
         return $this->price;
     }

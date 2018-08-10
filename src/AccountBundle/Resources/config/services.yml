@@ -5,3 +5,10 @@ services:
     account.managers.account_manager:
         class: AccountBundle\Managers\AccountManager
         arguments: ['@doctrine.orm.entity_manager']
+
+    admin.category:
+            class: AccountBundle\Controller\AdminController
+            arguments: [~, App\Entity\Product, ~]
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: Product }
+            public: true

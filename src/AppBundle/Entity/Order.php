@@ -22,148 +22,97 @@ class Order
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      */
-    private $id = 1;
-
-    /**
-     * @var string
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
-     * @ORM\JoinColumn(name="product", referencedColumnName="id")
-     */
-    private $product;
+    private $id;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="price", type="integer")
+     * @ORM\ManyToOne(targetEntity="AccountBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private $price;
+    private $user;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count", type="integer")
+     * @ORM\Column(name="summa", type="integer", nullable = true)
      */
-    private $count;
+    private $summa;
 
     /**
-     * @var integer
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserOrder", mappedBy="order")
      *
-     * @ORM\OneToOne(targetEntity="AccountBundle\Entity\User")
-     * @ORM\JoinColumn(name="orderUser", referencedColumnName="id")
      */
-    private $orderUser;
+    private $order;
+    /**
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param  User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSumma(): int
+    {
+        return $this->summa;
+    }
+
+    /**
+     * @param $summa
+     */
+    public function setSumma($summa)
+    {
+        $this->summa = $summa;
+        return $this;
+    }
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->product = new ArrayCollection();
+        $this->order = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function setOrder($order):self
     {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProduct(): string
-    {
-        return $this->product;
-    }
-
-    /**
-     * @param Product $product
-     */
-    public function setProduct(Product $product): void
-    {
-        $this->product = $product;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPrice(): int
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param $product
-     */
-    public function setPrice($product): void
-    {
-        $price = $product->getPrice();
-        $this->price = $price;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getCount(): ?int
-    {
-        return $this->count;
-    }
-
-    /**
-     * @param int $count
-     */
-    public function setCount(int $count): void
-    {
-        $this->count = $count;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOrderUser(): int
-    {
-        return $this->orderUser;
-    }
-
-    /**
-     * @param int $orderUser
-     */
-    public function setOrderUser(User $orderUser): void
-    {
-        $this->orderUser = $orderUser;
-    }
-
-//    /**
-//     * Set product.
-//     *@param $product
-//     *
-//     *@return $this
-//     */
-//    public function setProduct($product):self
-//    {
-//        foreach($product as $value){
-//            $this->addProduct($value);
-//        }
-//        return $this;
-//    }
-
-    /**
-     * Add product.
-     *
-     * @param Product $product
-     *
-     * @return $this
-     */
-    public function addProduct(Product $product):self
-    {
-        if(!$this->product->contains($product)) {
-            $product->setProduct($this);
-            $this->product->add($product);
+        foreach($order as $value){
+            $this->addOrder($value);
         }
         return $this;
     }
-
-
+    /**
+     * Add chat.
+     *
+     *
+     * @return $this
+     */
+    public function addOrder(Order $order):self
+    {
+        if(!$this->order->contains($order)) {
+            $order->setOrder($this);
+            $this->order->add($order);
+        }
+        return $this;
+    }
 }

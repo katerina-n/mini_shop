@@ -1,4 +1,44 @@
 services:
-    api.form.order_handler:
+    api.form_handler.order_form_handler:
         class: ApiBundle\Form\Handler\OrderFormHandler
-        public: true
+        arguments: ['@form.factory', '@api.form.options_retriever', '@router', '@sonata.templating', '@sonata.admin.entity_manager', '@session']
+        calls:
+            - [setViewHandler, ['@fos_rest.view_handler']]
+            - [setRequestStack, ['@request_stack']]
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: console.command }
+
+    api.form.abstract_handler:
+        class: ApiBundle\Form\Handler\AbstractFormHandler
+        arguments:
+            - '@form.factory'
+            - '@api.form.options_retriever'
+            - '@router'
+            - '@templating'
+            - '@sonata.admin.entity_manager'
+            - '@session'
+        calls:
+            - [setRequestStack, ['@request_stack']]
+            - [setContainer, ['@service_container']]
+            - [setViewHandler, ['@fos_rest.view_handler']]
+
+    api.form_handler.product_form_handler:
+        class: ApiBundle\Form\Handler\ProductFormHandler
+        arguments: ['@form.factory', '@api.form.options_retriever', '@router', '@sonata.templating', '@sonata.admin.entity_manager', '@session']
+        calls:
+            - [setViewHandler, ['@fos_rest.view_handler']]
+            - [setRequestStack, ['@request_stack']]
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: console.command }
+
+    api.form_handler.order_user_form_handler:
+        class: ApiBundle\Form\Handler\OrderUserFormHandler
+        arguments: ['@form.factory', '@api.form.options_retriever', '@router', '@sonata.templating', '@sonata.admin.entity_manager', '@session']
+        calls:
+            - [setViewHandler, ['@fos_rest.view_handler']]
+            - [setRequestStack, ['@request_stack']]
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: console.command }

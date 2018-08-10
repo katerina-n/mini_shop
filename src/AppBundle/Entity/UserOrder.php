@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,17 +25,30 @@ class UserOrder
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="AccountBundle\Entity\User")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
-    private $user;
+    private $product;
+
+    /**
+     * @var int
+     * @ORM\Column(name="count", type="integer")
+     */
+    private $count;
+
+    /**
+     * @var int
+     * @ORM\Column(name="price", type="integer")
+     */
+    private $price;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_price", type="integer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Order", inversedBy="order")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
      */
-    private $countPrice;
+    private $order;
 
     /**
      * @return int
@@ -44,44 +58,72 @@ class UserOrder
         return $this->id;
     }
 
+
     /**
-     * @param int $id
+     * @return int
      */
-    public function setId(int $id): void
+    public function getProduct()
     {
-        $this->id = $id;
+        return $this->product;
     }
 
     /**
-     * @return string
+     * @param int $product
      */
-    public function getUser(): string
+    public function setProduct(int $product)
     {
-        return $this->user;
-    }
-
-    /**
-     * @param string $user
-     */
-    public function setUser(string $user): void
-    {
-        $this->user = $user;
+        $this->product = $product;
+        return $this;
     }
 
     /**
      * @return int
      */
-    public function getCountPrice(): int
+    public function getCount()
     {
-        return $this->countPrice;
+        return $this->count;
     }
 
     /**
-     * @param int $countPrice
+     * @param int $count
      */
-    public function setCountPrice(int $countPrice): void
+    public function setCount(int $count)
     {
-        $this->countPrice = $countPrice;
+        $this->count = $count;
+        return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int $order
+     */
+    public function setOrder(int $order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param int $price
+     */
+    public function setPrice(int $price)
+    {
+        $this->price = $price;
+        return $this;
+    }
 }

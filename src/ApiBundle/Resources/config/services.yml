@@ -1,5 +1,36 @@
 services:
+
+    api.form.abstract_handler:
+        class: ApiBundle\Form\Handler\AbstractFormHandler
+        arguments:
+            - '@form.factory'
+            - '@api.form.options_retriever'
+            - '@router'
+            - '@templating'
+            - '@sonata.admin.entity_manager'
+            - '@session'
+        calls:
+            - [setRequestStack, ['@request_stack']]
+            - [setContainer, ['@service_container']]
+            - [setViewHandler, ['@fos_rest.view_handler']]
+
+
     api.form.order_handler:
         class: ApiBundle\Form\Handler\OrderFormHandler
+        parent: api.form.abstract_handler
         public: true
 
+
+
+    api.form.product_handler:
+        class: ApiBundle\Form\Handler\ProductFormHandler
+        parent: api.form.abstract_handler
+        public: true
+
+    api.form.user_order_handler:
+            class: ApiBundle\Form\Handler\OrderUserFormHandler
+            parent: api.form.abstract_handler
+            public: true
+
+    api.form.options_retriever:
+            class: ApiBundle\Form\FormOptionsRetriever

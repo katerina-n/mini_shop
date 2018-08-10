@@ -15,12 +15,12 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Order", mappedBy="user")
      */
     protected $id;
 
     public function __construct()
     {
         parent::__construct();
-        // your own logic
     }
 }
